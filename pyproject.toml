@@ -1,0 +1,9 @@
+[project]
+name = "sso-web-app"
+version = "0.1.0"
+description = "Minimal web application with KeyCloak SSO"
+requires-python = ">=3.12"
+dependencies = [
+    "flask>=3.1.0",
+    "gunicorn>=23.0.0",
+]
