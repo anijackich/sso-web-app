@@ -4,6 +4,8 @@ version = "0.1.0"
 description = "Minimal web application with KeyCloak SSO"
 requires-python = ">=3.12"
 dependencies = [
+    "authlib>=1.5.2",
     "flask>=3.1.0",
     "gunicorn>=23.0.0",
+    "requests>=2.32.3",
 ]
