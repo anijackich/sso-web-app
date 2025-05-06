@@ -24,7 +24,7 @@ oauth.register(
 def home():
     user = session.get('user')
     if user:
-        return f"Hello, {user['name']}!"
+        return f"Hello, {user['name']}! <a href=\"/logout\">Logout</a>"
     return 'Welcome! <a href="/login">Login</a>'
 
 @app.route('/login')

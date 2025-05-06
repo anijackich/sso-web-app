@@ -9,7 +9,7 @@
       "protocol": "openid-connect",
       "publicClient": false,
       "secret": "super-secret-change-me",
-      "redirectUris": ["https://localhost:5000/auth/callback"],
+      "redirectUris": ["https://app.test:5000/auth/callback"],
       "webOrigins": ["*"],
       "attributes": {
         "post.logout.redirect.uris": "/"

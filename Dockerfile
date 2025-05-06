@@ -55,7 +55,7 @@ ENV PATH="/app/.venv/bin:$PATH"
 
 EXPOSE 5000
 CMD ["gunicorn", "-b", "0.0.0.0:5000", \
-     "--certfile", "./certs/server.crt.pem", \
-     "--keyfile", "./certs/server.key.pem", \
+     "--certfile", "./certs/app.crt.pem", \
+     "--keyfile", "./certs/app.key.pem", \
      "app.main:app"]
 
