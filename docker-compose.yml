@@ -1,22 +1,38 @@
 services:
-  app:
-    build:
-      context: .
-    ports:
-      - '8000:8000'
-    volumes:
-      - ./certs:/app/certs
-
   keycloak:
-    image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}
+    image: quay.io/keycloak/keycloak:21.1.1
+    command:
+      - start-dev
+      - --import-realm
+      - -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
     environment:
-      KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME}
-      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD}
-    ports:
-      - '8001:8000'
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_IMPORT: /opt/keycloak/data/import/realm.json
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_STRICT: "true"
+      KC_HOSTNAME_STRICT_HTTPS: "false"
     volumes:
-      - ./certs:/opt/keycloak/certs
-      - ./keycloak_data:/opt/keycloak/data
-      - ./keycloak.conf:/opt/keycloak/conf/keycloak.conf
-    command: start
+      - ./keycloak/realm.json:/opt/keycloak/data/import/realm.json:ro
+    ports:
+      - "8080:8080"
+    networks:
+      - keycloak-network 
 
+  web:
+    build: .
+    environment:
+      FLASK_SECRET: other-super-secret-change-me
+      KEYCLOAK_URL: http://localhost:8080
+      OIDC_CLIENT_ID: flask-app
+      OIDC_CLIENT_SECRET: super-secret-change-me
+    depends_on:
+      - keycloak
+    ports:
+      - "5000:5000"
+    networks:
+      - keycloak-network
+
+networks:
+  keycloak-network:
+    name: keycloak-network
